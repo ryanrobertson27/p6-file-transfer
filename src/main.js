@@ -3,9 +3,11 @@ const { GoogleAuth } = require('google-auth-library');
 const { google } = require('googleapis');
 const fs = require('fs');
 const path = require('path');
+const { get } = require('https');
 
 // Path to your credentials file
-const CREDENTIALS_PATH = path.join(__dirname, 'credentials.json');
+const CREDENTIALS_PATH = path.join(__dirname, '../config/credentials.json');
+console.log(CREDENTIALS_PATH)
 const credentials = JSON.parse(fs.readFileSync(CREDENTIALS_PATH, 'utf8'));
 const SCOPES = ['https://www.googleapis.com/auth/drive'];
 
@@ -16,7 +18,7 @@ const auth = new GoogleAuth({
 });
 
 // Replace 'your-folder-id' with the actual folder ID
-const FOLDER_ID = '0AAeHyu_zTN6nUk9PVA';
+const FOLDER_ID = '0AAeHyu_zTN6nUk9PVA';    
 
 // Function to list folders in a Google Drive folder
 async function listFolders() {
@@ -75,6 +77,13 @@ function getRecordedFiles(ssdPath) {
 
     return folders;
 }
+
+const ssdPath = getSSDPath('/Volumes')
+if (ssdPath) {
+    const recordedFiles = getRecordedFiles(ssdPath)
+    console.log(recordedFiles)
+}
+
 
 // Example usage
 listFolders().then(() => {
